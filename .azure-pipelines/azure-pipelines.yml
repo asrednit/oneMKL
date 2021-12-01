@@ -1,0 +1,31 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- develop
+
+variables:
+  - name: WINDOWS_BASEKIT_URL
+    value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18195/w_BaseKit_p_2021.4.0.3421_offline.exe
+  - name: WINDOWS_BASEKIT_COMPONENTS
+    value: intel.oneapi.win.dpcpp-compiler:intel.oneapi.win.mkl.devel
+
+jobs:
+  - job: oneMKL DPC++
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: Cache@2
+      inputs:
+        path: C:\Program Files (x86)\Intel\oneAPI
+        key: '"basekit" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)"'
+        cacheHitVar: CACHE_RESTORED
+    - script: |
+        .azure-pipelines/scripts/install_basekit.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
+      displayName: Install oneMKL
+      condition: ne(variables.CACHE_RESTORED, 'true')
+    - bash: |
+        dir C:\Program Files (x86)\Intel\oneAPI
+      displayName: Check installation

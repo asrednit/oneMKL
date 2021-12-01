@@ -26,6 +26,6 @@ jobs:
         .azure-pipelines/scripts/install_basekit.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
       displayName: Install oneMKL
       condition: ne(variables.CACHE_RESTORED, 'true')
-    - bash: |
+    - script: |
         dir "C:\Program Files (x86)\Intel\oneAPI"
       displayName: Check installation

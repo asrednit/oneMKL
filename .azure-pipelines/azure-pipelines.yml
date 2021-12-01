@@ -13,7 +13,7 @@ variables:
     value: intel.oneapi.win.dpcpp-compiler:intel.oneapi.win.mkl.devel
 
 jobs:
-  - job: oneMKL DPC++
+  - job: oneMKL-DPCPP
     pool:
       vmImage: 'windows-latest'
     steps:

@@ -28,4 +28,7 @@ jobs:
       condition: ne(variables.CACHE_RESTORED, 'true')
     - script: |
         dir "C:\Program Files (x86)\Intel\oneAPI"
+        ninja --version
+        choco --version
+        cmake --version
       displayName: Check installation

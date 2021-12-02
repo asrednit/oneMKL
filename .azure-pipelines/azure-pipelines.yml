@@ -17,15 +17,17 @@ jobs:
     pool:
       vmImage: 'windows-latest'
     steps:
-    - task: Cache@2
-      inputs:
-        path: C:\Program Files (x86)\Intel\oneAPI
-        key: '"basekit" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)"'
-        cacheHitVar: CACHE_RESTORED
-    - script: |
-        .azure-pipelines/scripts/install_basekit.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
-      displayName: Install oneMKL
-      condition: ne(variables.CACHE_RESTORED, 'true')
+    # - task: Cache@2
+    #   inputs:
+    #     path: C:\Program Files (x86)\Intel\oneAPI
+    #     key: '"basekit" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)"'
+    #     cacheHitVar: CACHE_RESTORED
+    # - script: |
+    #     .azure-pipelines/scripts/install_basekit.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
+    #   displayName: Install oneMKL
+    #   condition: ne(variables.CACHE_RESTORED, 'true')
+    - script: choco install ninja
+      displayName: Install ninja
     - script: |
         dir "C:\Program Files (x86)\Intel\oneAPI"
         ninja --version

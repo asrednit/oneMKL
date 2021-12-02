@@ -47,6 +47,6 @@ jobs:
         cmake --version
         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
         dpcpp --version
-        icc --version
-        ifort --version
+        icl /QV
+        ifort /QV
       displayName: Check installation

@@ -19,9 +19,14 @@ call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
 
 echo "cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl ../%UNPACKED_DIR%"
 cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl ../%UNPACKED_DIR%
+cmake build
+
 
 echo "cmake -G "Ninja" -DCMAKE_C_FLAGS="-DLAPACK_GLOBAL_PATTERN_UC" -DBUILD_SHARED_LIBS=ON -DBUILD_INDEX64=ON -DLAPACKE=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl -DCMAKE_Fortran_FLAGS=/integer-size:64 ../%UNPACKED_DIR%"
 cmake -G "Ninja" -DCMAKE_C_FLAGS="-DLAPACK_GLOBAL_PATTERN_UC" -DBUILD_SHARED_LIBS=ON -DBUILD_INDEX64=ON -DLAPACKE=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl -DCMAKE_Fortran_FLAGS=/integer-size:64 ../%UNPACKED_DIR%
+cmake build
 
 dir .
-xcopy /s "%~dp0" "C:\netlib"
+mkdir "C:\netlib"
+xcopy /s "%~dp0\lib" "C:\netlib"
+xcopy /s "%~dp0\include" "C:\netlib"

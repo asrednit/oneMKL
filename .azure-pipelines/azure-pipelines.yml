@@ -27,23 +27,23 @@ jobs:
       inputs:
         path: C:\Program Files (x86)\Intel\oneAPI
         key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
-        cacheHitVar: CACHE_RESTORED
+        cacheHitVar: ONEAPI_CACHE_RESTORED
     
     - task: Cache@2
       inputs:
         path: C:\netlib
         key: 'netlib | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
-        cacheHitVar: CACHE_RESTORED
+        cacheHitVar: NETLIB_CACHE_RESTORED
 
     - script: |
         .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
       displayName: Install basekit components
-      condition: ne(variables.CACHE_RESTORED, 'true')
+      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
     - script: |
         .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
       displayName: Install hpc toolkit components
-      condition: ne(variables.CACHE_RESTORED, 'true')
+      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
     - script: choco install ninja
       displayName: Install ninja
@@ -62,4 +62,4 @@ jobs:
     - script: |
         .azure-pipelines/scripts/install_netlib.bat "$(NETLIB_VERSION)"
       displayName: Install netlib
-      condition: ne(variables.CACHE_RESTORED, 'true')
+      condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')

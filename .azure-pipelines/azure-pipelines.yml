@@ -29,11 +29,11 @@ jobs:
         key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
         cacheHitVar: ONEAPI_CACHE_RESTORED
     
-    - task: Cache@2
-      inputs:
-        path: C:\netlib
-        key: 'netlib | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
-        cacheHitVar: NETLIB_CACHE_RESTORED
+    # - task: Cache@2
+    #   inputs:
+    #     path: C:\netlib
+    #     key: 'netlib | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+    #     cacheHitVar: NETLIB_CACHE_RESTORED
 
     - script: |
         .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"

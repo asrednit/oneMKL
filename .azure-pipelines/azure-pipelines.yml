@@ -45,8 +45,8 @@ jobs:
     #   displayName: Install hpc toolkit components
     #   condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
-    # - script: choco install ninja
-    #   displayName: Install ninja
+    - script: choco install ninja
+      displayName: Install ninja
 
     # - script: |
     #     dir "C:\Program Files (x86)\Intel\oneAPI"

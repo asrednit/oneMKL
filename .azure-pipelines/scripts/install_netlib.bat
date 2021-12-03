@@ -1,4 +1,4 @@
-set VERSION="%1"
+set VERSION=%1
 
 set URL="https://codeload.github.com/Reference-LAPACK/lapack/zip/refs/tags/v%VERSION%"
 set UNPACKED_DIR="lapack-%VERSION%"

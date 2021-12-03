@@ -60,6 +60,6 @@ jobs:
     #   displayName: Check installation
     
     - script: |
-        .azure-pipelines/scripts/install_netlib.bat "$(NETLIB_VERSION)"
+        .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)
       displayName: Install netlib
       condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')

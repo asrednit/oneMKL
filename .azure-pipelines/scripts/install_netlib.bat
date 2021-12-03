@@ -15,6 +15,8 @@ dir .
 dir %UNPACKED_DIR%
 cd build
 
+call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
+
 echo "cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl ../%UNPACKED_DIR%"
 cmake -G "Ninja" -DBUILD_SHARED_LIBS=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl ../%UNPACKED_DIR%
 

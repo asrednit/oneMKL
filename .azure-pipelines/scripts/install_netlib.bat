@@ -7,6 +7,7 @@ mkdir sandbox
 cd sandbox
 mkdir build
 
+echo "curl.exe --output netlib.zip --url %URL% --retry 5 --retry-delay 5"
 curl.exe --output netlib.zip --url %URL% --retry 5 --retry-delay 5
 unzip -q netlib.zip
 cd build

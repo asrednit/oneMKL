@@ -23,41 +23,41 @@ jobs:
     pool:
       vmImage: 'windows-latest'
     steps:
-    # - task: Cache@2
-    #   inputs:
-    #     path: C:\Program Files (x86)\Intel\oneAPI
-    #     key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
-    #     cacheHitVar: ONEAPI_CACHE_RESTORED
+    - task: Cache@2
+      inputs:
+        path: C:\Program Files (x86)\Intel\oneAPI
+        key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
+        cacheHitVar: ONEAPI_CACHE_RESTORED
     
-    # - task: Cache@2
-    #   inputs:
-    #     path: C:\netlib
-    #     key: 'netlib | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
-    #     cacheHitVar: NETLIB_CACHE_RESTORED
+    - task: Cache@2
+      inputs:
+        path: C:\netlib
+        key: 'netlib | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+        cacheHitVar: NETLIB_CACHE_RESTORED
 
-    # - script: |
-    #     .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
-    #   displayName: Install basekit components
-    #   condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
+    - script: |
+        .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
+      displayName: Install basekit components
+      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
-    # - script: |
-    #     .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
-    #   displayName: Install hpc toolkit components
-    #   condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
+    - script: |
+        .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
+      displayName: Install hpc toolkit components
+      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
     - script: choco install ninja
       displayName: Install ninja
 
-    # - script: |
-    #     dir "C:\Program Files (x86)\Intel\oneAPI"
-    #     ninja --version
-    #     choco --version
-    #     cmake --version
-    #     call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
-    #     dpcpp --version
-    #     icl /QV
-    #     ifort /QV
-    #   displayName: Check installation
+    - script: |
+        dir "C:\Program Files (x86)\Intel\oneAPI"
+        ninja --version
+        choco --version
+        cmake --version
+        call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
+        dpcpp --version
+        icl /QV
+        ifort /QV
+      displayName: Check installation
     
     - script: |
         .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)

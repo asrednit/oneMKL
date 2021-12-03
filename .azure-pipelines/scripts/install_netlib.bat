@@ -11,7 +11,9 @@ mkdir build
 echo "curl.exe --output netlib.zip --url %URL% --retry 5 --retry-delay 5"
 curl.exe --output netlib.zip --url %URL% --retry 5 --retry-delay 5
 unzip -q netlib.zip
-cd build
+dir .
+dir 
+cd build %UNPACKED_DIR%
 
 cmake -G "NMake Makefiles" -DBUILD_SHARED_LIBS=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl
  ../%UNPACKED_DIR%

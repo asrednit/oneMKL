@@ -1,7 +1,7 @@
 set VERSION=%1
 
 set URL=https://codeload.github.com/Reference-LAPACK/lapack/zip/refs/tags/v%VERSION%
-set UNPACKED_DIR="lapack-%VERSION%"
+set UNPACKED_DIR=lapack-%VERSION%
 https://codeload.github.com/Reference-LAPACK/lapack/zip/refs/tags/v3.10.0
 https://codeload.github.com/Reference-LAPACK/lapack/zip/refs/tags/v3.10.0
 mkdir sandbox
@@ -12,8 +12,8 @@ echo "curl.exe --output netlib.zip --url %URL% --retry 5 --retry-delay 5"
 curl.exe --output netlib.zip --url %URL% --retry 5 --retry-delay 5
 unzip -q netlib.zip
 dir .
-dir 
-cd build %UNPACKED_DIR%
+dir %UNPACKED_DIR%
+cd build
 
 cmake -G "NMake Makefiles" -DBUILD_SHARED_LIBS=ON -DCBLAS=ON -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icl
  ../%UNPACKED_DIR%

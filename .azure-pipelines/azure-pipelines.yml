@@ -11,8 +11,8 @@ variables:
     value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18195/w_BaseKit_p_2021.4.0.3421_offline.exe
   - name: WINDOWS_HPC_TOOLKIT_URL
     value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18247/w_HPCKit_p_2021.4.0.3340_offline.exe
-  - name: NETLIB_URL
-    value: https://codeload.github.com/Reference-LAPACK/lapack/zip/refs/tags/v3.10.0
+  - name: NETLIB_VERSION
+    value: '3.10.0'
   - name: WINDOWS_BASEKIT_COMPONENTS
     value: intel.oneapi.win.dpcpp-compiler:intel.oneapi.win.mkl.devel
   - name: WINDOWS_HPC_TOOLKIT_COMPONENTS
@@ -23,36 +23,43 @@ jobs:
     pool:
       vmImage: 'windows-latest'
     steps:
-    # - task: Cache@2
-    #   inputs:
-    #     path: C:\Program Files (x86)\Intel\oneAPI
-    #     key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
-    #     cacheHitVar: CACHE_RESTORED
+    - task: Cache@2
+      inputs:
+        path: C:\Program Files (x86)\Intel\oneAPI
+        key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
+        cacheHitVar: CACHE_RESTORED
+    
+    - task: Cache@2
+      inputs:
+        path: C:\netlib
+        key: 'netlib | "$(Agent.OS)" | $(NETLIB_VERSION)'
+        cacheHitVar: CACHE_RESTORED
 
-    # - script: |
-    #     .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
-    #   displayName: Install basekit components
-    #   condition: ne(variables.CACHE_RESTORED, 'true')
+    - script: |
+        .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
+      displayName: Install basekit components
+      condition: ne(variables.CACHE_RESTORED, 'true')
 
-    # - script: |
-    #     .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
-    #   displayName: Install hpc toolkit components
-    #   condition: ne(variables.CACHE_RESTORED, 'true')
+    - script: |
+        .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
+      displayName: Install hpc toolkit components
+      condition: ne(variables.CACHE_RESTORED, 'true')
 
-    # - script: choco install ninja
-    #   displayName: Install ninja
+    - script: choco install ninja
+      displayName: Install ninja
 
-    # - script: |
-    #     dir "C:\Program Files (x86)\Intel\oneAPI"
-    #     ninja --version
-    #     choco --version
-    #     cmake --version
-    #     call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
-    #     dpcpp --version
-    #     icl /QV
-    #     ifort /QV
-    #   displayName: Check installation
+    - script: |
+        dir "C:\Program Files (x86)\Intel\oneAPI"
+        ninja --version
+        choco --version
+        cmake --version
+        call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
+        dpcpp --version
+        icl /QV
+        ifort /QV
+      displayName: Check installation
     
     - script: |
-        .azure-pipelines/scripts/install_netlib.bat "$(NETLIB_URL)" BLAS
+        .azure-pipelines/scripts/install_netlib.bat "$(NETLIB_VERSION)"
       displayName: Install netlib
+      condition: ne(variables.CACHE_RESTORED, 'true')

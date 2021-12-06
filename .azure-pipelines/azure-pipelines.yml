@@ -32,7 +32,7 @@ jobs:
     - task: Cache@2
       inputs:
         path: C:\netlib
-        key: 'netlib | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+        key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
         cacheHitVar: NETLIB_CACHE_RESTORED
 
     - script: |
@@ -49,7 +49,6 @@ jobs:
       displayName: Install ninja
 
     - script: |
-        dir "C:\Program Files (x86)\Intel\oneAPI"
         ninja --version
         choco --version
         cmake --version
@@ -63,3 +62,7 @@ jobs:
         .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)
       displayName: Install netlib
       condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')
+
+    - script: |
+        .azure-pipelines/scripts/test_onemkl.bat
+      displayName: Test oneMKL

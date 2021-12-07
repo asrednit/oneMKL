@@ -21,7 +21,7 @@ variables:
 jobs:
   - job: oneMKL_DPCPP
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'windows-2019'
     steps:
     - task: Cache@2
       inputs:

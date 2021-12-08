@@ -74,14 +74,17 @@ jobs:
     - script: |
         .azure-pipelines/scripts/test_onemkl.bat blas
       displayName: Test oneMKL BLAS
+      continueOnError: true
     
     - script: |
         .azure-pipelines/scripts/test_onemkl.bat lapack
       displayName: Test oneMKL LAPACK
+      continueOnError: true
 
     - script: |
         .azure-pipelines/scripts/test_onemkl.bat rng
       displayName: Test oneMKL RNG
+      continueOnError: true
 
   - job: oneMKL_DPCPP_lnx
     pool:
@@ -125,11 +128,14 @@ jobs:
     - script: |
         .azure-pipelines/scripts/test_onemkl.sh blas
       displayName: Test oneMKL BLAS
+      continueOnError: true
     
     - script: |
         .azure-pipelines/scripts/test_onemkl.sh lapack
       displayName: Test oneMKL LAPACK
+      continueOnError: true
 
     - script: |
         .azure-pipelines/scripts/test_onemkl.sh rng
       displayName: Test oneMKL RNG
+      continueOnError: true

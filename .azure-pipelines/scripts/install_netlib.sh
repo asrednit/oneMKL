@@ -18,10 +18,10 @@ source /opt/intel/onapi/setvars.sh
 echo "cmake -DBUILD_SHARED_LIBS=ON -DLAPACKE=ON -DCBLAS=ON ../${UNPACKED_DIR}"
 cmake -DBUILD_SHARED_LIBS=ON -DLAPACKE=ON -DCBLAS=ON ../${UNPACKED_DIR}
 cmake --build . -j 4
-mkdir -p /opt/netlib/blas && cp -r lib include /usr/netlib/blas/
+mkdir -p /opt/netlib/blas && cp -r lib include /opt/netlib/blas/
 
 
 echo "cmake -DBUILD_SHARED_LIBS=ON -DLAPACKE=ON -DCBLAS=ON -DBUILD_INDEX64=ON ../${UNPACKED_DIR}"
 cmake -DBUILD_SHARED_LIBS=ON -DLAPACKE=ON -DCBLAS=ON -DBUILD_INDEX64=ON ../${UNPACKED_DIR}
 cmake --build . -j 4
-mkdir -p /opt/netlib/lapack && cp -r lib include /usr/netlib/lapack/
+mkdir -p /opt/netlib/lapack && cp -r lib include /opt/netlib/lapack/

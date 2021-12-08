@@ -8,11 +8,11 @@ source /opt/intel/oneapi/setvars.sh
 DOMAIN_SPECIFIC_OPTIONS=
 
 if [ "${DOMAIN}" == "blas" ]; then 
-    DOMAIN_SPECIFIC_OPTIONS=-DREF_BLAS_ROOT=/usr/netlib/blas
+    DOMAIN_SPECIFIC_OPTIONS=-DREF_BLAS_ROOT=/opt/netlib/blas
 fi
 
 if [ "${DOMAIN}" == "lapack" ]; then 
-    DOMAIN_SPECIFIC_OPTIONS=-DREF_BLAS_ROOT=/usr/netlib/lapack
+    DOMAIN_SPECIFIC_OPTIONS=-DREF_BLAS_ROOT=/opt/netlib/lapack
 fi
 
 echo "Configuring..."

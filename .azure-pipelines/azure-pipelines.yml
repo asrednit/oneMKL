@@ -95,7 +95,7 @@ jobs:
     
     - task: Cache@2
       inputs:
-        path: /usr/netlib
+        path: /opt/netlib
         key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
         cacheHitVar: NETLIB_CACHE_RESTORED
 

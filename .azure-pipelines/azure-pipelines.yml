@@ -11,15 +11,23 @@ variables:
     value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18195/w_BaseKit_p_2021.4.0.3421_offline.exe
   - name: WINDOWS_HPC_TOOLKIT_URL
     value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18247/w_HPCKit_p_2021.4.0.3340_offline.exe
-  - name: NETLIB_VERSION
-    value: 3.10.0
+  - name: LINUX_BASEKIT_URL
+    value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18236/l_BaseKit_p_2021.4.0.3422_offline.sh
+  - name: LINUX_HPC_TOOLKIT_URL
+    value: https://registrationcenter-download.intel.com/akdlm/irc_nas/18211/l_HPCKit_p_2021.4.0.3347_offline.sh
   - name: WINDOWS_BASEKIT_COMPONENTS
     value: intel.oneapi.win.dpcpp-compiler:intel.oneapi.win.mkl.devel
   - name: WINDOWS_HPC_TOOLKIT_COMPONENTS
     value: intel.oneapi.win.cpp-compiler:intel.oneapi.win.ifort-compiler
+  - name: LINUX_BASEKIT_COMPONENTS
+    value: intel.oneapi.lin.dpcpp-cpp-compiler:intel.oneapi.lin.mkl.devel
+  - name: LINUX_HPC_TOOLKIT_COMPONENTS
+    value: intel.oneapi.lin.dpcpp-cpp-compiler-pro:intel.oneapi.lin.ifort-compiler
+  - name: NETLIB_VERSION
+    value: 3.10.0
 
 jobs:
-  - job: oneMKL_DPCPP
+  - job: oneMKL_DPCPP_win
     pool:
       vmImage: 'windows-2019'
     steps:
@@ -47,6 +55,11 @@ jobs:
 
     - script: choco install ninja
       displayName: Install ninja
+    
+    - script: |
+        .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)
+      displayName: Install netlib
+      condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')
 
     - script: |
         ninja --version
@@ -57,12 +70,66 @@ jobs:
         icl /QV
         ifort /QV
       displayName: Check installation
+
+    - script: |
+        .azure-pipelines/scripts/test_onemkl.bat blas
+      displayName: Test oneMKL BLAS
     
     - script: |
-        .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)
+        .azure-pipelines/scripts/test_onemkl.bat lapack
+      displayName: Test oneMKL LAPACK
+
+    - script: |
+        .azure-pipelines/scripts/test_onemkl.bat rng
+      displayName: Test oneMKL RNG
+
+  - job: oneMKL_DPCPP_lnx
+    pool:
+      vmImage: 'ubuntu-20.04'
+    steps:
+    - task: Cache@2
+      inputs:
+        path: /opt/intel/oneapi
+        key: '"oneapi_components" | "$(Agent.OS)" | "$(LINUX_BASEKIT_URL)" | "$(LINUX_HPC_TOOLKIT_URL)"'
+        cacheHitVar: ONEAPI_CACHE_RESTORED
+    
+    - task: Cache@2
+      inputs:
+        path: /usr/netlib
+        key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+        cacheHitVar: NETLIB_CACHE_RESTORED
+
+    - script: |
+        .azure-pipelines/scripts/install_linux_components.sh "$(LINUX_BASEKIT_URL)" "$(LINUX_BASEKIT_COMPONENTS)"
+      displayName: Install basekit components
+      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
+
+    - script: |
+        .azure-pipelines/scripts/install_linux_components.sh "$(LINUX_HPC_TOOLKIT_URL)" "$(LINUX_HPC_TOOLKIT_COMPONENTS)"
+      displayName: Install hpc toolkit components
+      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
+    
+    - script: |
+        .azure-pipelines/scripts/install_netlib.sh $(NETLIB_VERSION)
       displayName: Install netlib
       condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')
 
     - script: |
-        .azure-pipelines/scripts/test_onemkl.bat
-      displayName: Test oneMKL
+        cmake --version
+        source /opt/intel/oneapi/setvars.sh
+        dpcpp --version
+        icc --version
+        ifort --version
+      displayName: Check installation
+
+    - script: |
+        .azure-pipelines/scripts/test_onemkl.sh blas
+      displayName: Test oneMKL BLAS
+    
+    - script: |
+        .azure-pipelines/scripts/test_onemkl.sh lapack
+      displayName: Test oneMKL LAPACK
+
+    - script: |
+        .azure-pipelines/scripts/test_onemkl.sh rng
+      displayName: Test oneMKL RNG

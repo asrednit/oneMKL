@@ -20,6 +20,9 @@ fi
 export CXX=dpcpp
 export CC=clang
 
+ls -l /opt/netlib/lapack
+ls -l /opt/netlib/lapack/lib
+
 echo "Configuring..."
 cmake -DBUILD_SHARED_LIBS=True -DENABLE_MKLCPU_BACKEND=True -DENABLE_MKLGPU_BACKEND=False -DENABLE_NETLIB_BACKEND=False -DENABLE_CUBLAS_BACKEND=False -DENABLE_CURAND_BACKEND=False -DCMAKE_VERBOSE_MAKEFILE=True -DBUILD_FUNCTIONAL_TESTS=True -DTARGET_DOMAINS=${DOMAIN} ${DOMAIN_SPECIFIC_OPTIONS} ..
 echo "Building..."

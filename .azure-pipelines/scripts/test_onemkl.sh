@@ -14,7 +14,7 @@ if [ "${DOMAIN}" == "blas" ]; then
 fi
 
 if [ "${DOMAIN}" == "lapack" ]; then 
-    DOMAIN_SPECIFIC_OPTIONS=-DREF_BLAS_ROOT=/opt/netlib/lapack
+    DOMAIN_SPECIFIC_OPTIONS=-DREF_LAPACK_ROOT=/opt/netlib/lapack
 fi
 
 export CXX=dpcpp

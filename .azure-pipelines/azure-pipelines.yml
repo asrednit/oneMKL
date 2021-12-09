@@ -40,7 +40,7 @@ jobs:
   #   - task: Cache@2
   #     inputs:
   #       path: C:\netlib
-  #       key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+  #       key: 'netlib-v2 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
   #       cacheHitVar: NETLIB_CACHE_RESTORED
 
   #   - script: |
@@ -99,7 +99,7 @@ jobs:
     - task: Cache@2
       inputs:
         path: /opt/netlib
-        key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+        key: 'netlib-v2 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
         cacheHitVar: NETLIB_CACHE_RESTORED
 
     - script: |

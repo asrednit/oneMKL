@@ -27,64 +27,64 @@ variables:
     value: 3.10.0
 
 jobs:
-  - job: oneMKL_DPCPP_win
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-    - task: Cache@2
-      inputs:
-        path: C:\Program Files (x86)\Intel\oneAPI
-        key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
-        cacheHitVar: ONEAPI_CACHE_RESTORED
+  # - job: oneMKL_DPCPP_win
+  #   pool:
+  #     vmImage: 'windows-2019'
+  #   steps:
+  #   - task: Cache@2
+  #     inputs:
+  #       path: C:\Program Files (x86)\Intel\oneAPI
+  #       key: '"oneapi_components" | "$(Agent.OS)" | "$(WINDOWS_BASEKIT_URL)" | "$(WINDOWS_HPC_TOOLKIT_URL)"'
+  #       cacheHitVar: ONEAPI_CACHE_RESTORED
     
-    - task: Cache@2
-      inputs:
-        path: C:\netlib
-        key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
-        cacheHitVar: NETLIB_CACHE_RESTORED
+  #   - task: Cache@2
+  #     inputs:
+  #       path: C:\netlib
+  #       key: 'netlib-v1 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+  #       cacheHitVar: NETLIB_CACHE_RESTORED
 
-    - script: |
-        .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
-      displayName: Install basekit components
-      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
+  #   - script: |
+  #       .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_BASEKIT_URL)" "$(WINDOWS_BASEKIT_COMPONENTS)"
+  #     displayName: Install basekit components
+  #     condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
-    - script: |
-        .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
-      displayName: Install hpc toolkit components
-      condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
+  #   - script: |
+  #       .azure-pipelines/scripts/install_windows_components.bat "$(WINDOWS_HPC_TOOLKIT_URL)" "$(WINDOWS_HPC_TOOLKIT_COMPONENTS)"
+  #     displayName: Install hpc toolkit components
+  #     condition: ne(variables.ONEAPI_CACHE_RESTORED, 'true')
 
-    - script: choco install ninja
-      displayName: Install ninja
+  #   - script: choco install ninja
+  #     displayName: Install ninja
     
-    - script: |
-        .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)
-      displayName: Install netlib
-      condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')
+  #   - script: |
+  #       .azure-pipelines/scripts/install_netlib.bat $(NETLIB_VERSION)
+  #     displayName: Install netlib
+  #     condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')
 
-    - script: |
-        ninja --version
-        choco --version
-        cmake --version
-        call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
-        dpcpp --version
-        icl /QV
-        ifort /QV
-      displayName: Check installation
+  #   - script: |
+  #       ninja --version
+  #       choco --version
+  #       cmake --version
+  #       call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
+  #       dpcpp --version
+  #       icl /QV
+  #       ifort /QV
+  #     displayName: Check installation
 
-    - script: |
-        .azure-pipelines/scripts/test_onemkl.bat blas
-      displayName: Test oneMKL BLAS
-      continueOnError: true
+  #   - script: |
+  #       .azure-pipelines/scripts/test_onemkl.bat blas
+  #     displayName: Test oneMKL BLAS
+  #     continueOnError: true
     
-    - script: |
-        .azure-pipelines/scripts/test_onemkl.bat lapack
-      displayName: Test oneMKL LAPACK
-      continueOnError: true
+  #   - script: |
+  #       .azure-pipelines/scripts/test_onemkl.bat lapack
+  #     displayName: Test oneMKL LAPACK
+  #     continueOnError: true
 
-    - script: |
-        .azure-pipelines/scripts/test_onemkl.bat rng
-      displayName: Test oneMKL RNG
-      continueOnError: true
+  #   - script: |
+  #       .azure-pipelines/scripts/test_onemkl.bat rng
+  #     displayName: Test oneMKL RNG
+  #     continueOnError: true
 
   - job: oneMKL_DPCPP_lnx
     pool:

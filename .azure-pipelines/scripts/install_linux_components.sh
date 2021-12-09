@@ -10,6 +10,7 @@ rm -rf installer.sh
 WEBIMAGE_NAME=$(ls -1 webimage_extracted/)
 
 webimage_extracted/${WEBIMAGE_NAME}/bootstrapper -s --action install --components="${REQUIRED_COMPONENTS}" --eula=accept --log-dir=. --install-dir=/opt/intel/oneapi
+ls -l /opt/intel/oneapi
 exit_code=$?
 
 rm -rf webimage_extracted

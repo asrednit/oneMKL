@@ -123,9 +123,6 @@ jobs:
         dpcpp --version
         icc --version
         ifort --version
-        ls -l /opt/netlib/lapack
-        ls -l /opt/netlib/lapack/lib
-        ls -l /opt/netlib/lapack/include
       displayName: Check installation
 
     # - script: |
@@ -133,12 +130,17 @@ jobs:
     #   displayName: Test oneMKL BLAS
     #   continueOnError: true
     
+    # - script: |
+    #     .azure-pipelines/scripts/test_onemkl.sh lapack
+    #   displayName: Test oneMKL LAPACK
+    #   continueOnError: true
+
     - script: |
-        .azure-pipelines/scripts/test_onemkl.sh lapack
-      displayName: Test oneMKL LAPACK
+        .azure-pipelines/scripts/test_onemkl.sh rng
+      displayName: Test oneMKL RNG
       continueOnError: true
 
-    # - script: |
-    #     .azure-pipelines/scripts/test_onemkl.sh rng
-    #   displayName: Test oneMKL RNG
-    #   continueOnError: true
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'cTest'
+        testResultsFiles: '**/LastTest.log'

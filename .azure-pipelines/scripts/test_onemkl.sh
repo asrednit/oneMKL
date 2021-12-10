@@ -26,4 +26,4 @@ cmake -DBUILD_SHARED_LIBS=True -DENABLE_MKLCPU_BACKEND=True -DENABLE_MKLGPU_BACK
 echo "Building..."
 cmake --build . --parallel 4 --target all
 echo "Testing..."
-ctest -j1 --output-on-failure
+ctest -j1 --output-on-failure -O ctest.log

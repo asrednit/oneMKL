@@ -143,4 +143,4 @@ jobs:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'cTest'
-        testResultsFiles: 'ctest.log'
+        testResultsFiles: '**/ctest.log'

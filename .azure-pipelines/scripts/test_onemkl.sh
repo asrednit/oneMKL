@@ -1,8 +1,6 @@
 DOMAIN=$1
 
 mkdir build-${DOMAIN}
-
-ls -l
 cd build-${DOMAIN}
 
 source /opt/intel/oneapi/setvars.sh

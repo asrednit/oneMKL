@@ -153,13 +153,13 @@ jobs:
       - task: Cache@2
         inputs:
           path: /opt/intel/oneapi
-          key: '"oneapi_dpcpp" | "$(Agent.OS)" | "$(LINUX_BASEKIT_URL)"'
-          cacheHitVar: ONEAPI_DPCPP_CACHE_RESTORED
+          key: '"oneapi_dpcpp_compiler" | "$(Agent.OS)" | "$(LINUX_BASEKIT_URL)" | "$(LINUX_DPCPP_COMPILER)"'
+          cacheHitVar: DPCPP_CACHE_RESTORED
   
       - script: |
           .azure-pipelines/scripts/install_linux_components.sh "$(LINUX_BASEKIT_URL)" "$(LINUX_DPCPP_COMPILER)"
         displayName: Install basekit components
-        condition: ne(variables.ONEAPI_DPCPP_CACHE_RESTORED, 'true')
+        condition: ne(variables.DPCPP_CACHE_RESTORED, 'true')
 
       - script: |
           sudo pip3 install conan

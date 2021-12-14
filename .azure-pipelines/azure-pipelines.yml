@@ -165,7 +165,7 @@ jobs:
           pip3 install conan
         displayName: Install Conan
       
-      - script: |
-          .azure-pipelines/scripts/test_onemkl_conan.sh blas
-        displayName: Test oneMKL BLAS
-        continueOnError: true
+      # - script: |
+      #     .azure-pipelines/scripts/test_onemkl_conan.sh blas
+      #   displayName: Test oneMKL BLAS
+      #   continueOnError: true

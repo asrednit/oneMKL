@@ -162,7 +162,7 @@ jobs:
         condition: ne(variables.ONEAPI_DPCPP_CACHE_RESTORED, 'true')
 
       - script: |
-          pip3 install conan
+          sudo pip3 install conan
         displayName: Install Conan
       
       # - script: |

@@ -1,3 +1,5 @@
+#/bin/bash
+
 DOMAIN=$1
 
 export COMPILER_PREFIX="/opt/intel/oneapi/compiler/latest/linux"

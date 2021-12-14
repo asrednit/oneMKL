@@ -1,3 +1,5 @@
+#/bin/bash
+
 INSTALLER_URL=$1
 REQUIRED_COMPONENTS=$2
 

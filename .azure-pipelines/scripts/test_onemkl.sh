@@ -1,3 +1,5 @@
+#/bin/bash
+
 DOMAIN=$1
 
 mkdir build-${DOMAIN}

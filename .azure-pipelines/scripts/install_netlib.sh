@@ -1,3 +1,5 @@
+#/bin/bash
+
 VERSION=$1
 
 URL=https://codeload.github.com/Reference-LAPACK/lapack/zip/refs/tags/v${VERSION}

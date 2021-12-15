@@ -4,7 +4,7 @@ DOMAIN=$1
 
 export COMPILER_PREFIX="/opt/intel/oneapi/compiler/latest/linux"
 
-conan config install conan/
+sudo conan config install conan/
 
 mkdir build-${DOMAIN}
 cd build-${DOMAIN}

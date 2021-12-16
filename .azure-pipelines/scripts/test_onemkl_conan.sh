@@ -19,5 +19,8 @@ if [ "${DOMAIN}" == "lapack" ]; then
     DOMAIN_SPECIFIC_OPTIONS="-o ref_lapack_root=/opt/netlib/lapack"
 fi
 
+sudo -E conan user
+sudo -E conan remote list
+
 sudo -E conan install .. --profile inteldpcpp_lnx.jinja --build missing -o enable_mklgpu_backend=False -o target_domains=${DOMAIN} ${DOMAIN_SPECIFIC_OPTIONS}
-sudo -E conan build ..
+# sudo -E conan build ..

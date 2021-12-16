@@ -38,7 +38,7 @@ THIRD-PARTY-PROGRAMS file and in the README.md file included with the Software P
     "
 
     # Dependencies
-    netlib_version = "3.7.1"
+    netlib_version = "3.10.0"
     sphinx_version = "2.4.4"
 
     settings = "os", "compiler", "build_type", "arch"

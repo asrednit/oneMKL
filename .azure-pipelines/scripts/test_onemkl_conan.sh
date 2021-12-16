@@ -4,6 +4,10 @@ DOMAIN=$1
 
 export COMPILER_PREFIX="/opt/intel/oneapi/compiler/latest/linux"
 
+wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+
 sudo -E conan config install conan/
 
 mkdir build-${DOMAIN}

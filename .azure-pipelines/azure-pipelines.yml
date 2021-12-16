@@ -149,18 +149,30 @@ jobs:
     - job: oneMKL_DPCPP_conan
       pool:
         vmImage: 'ubuntu-20.04'
+        
       steps:
       - task: Cache@2
         inputs:
           path: /opt/intel/oneapi
           key: '"oneapi_dpcpp_compiler" | "$(Agent.OS)" | "$(LINUX_BASEKIT_URL)" | "$(LINUX_DPCPP_COMPILER)"'
           cacheHitVar: DPCPP_CACHE_RESTORED
-  
+
+      - task: Cache@2
+        inputs:
+          path: /opt/netlib
+          key: 'netlib-v2 | "$(Agent.OS)" | "$(NETLIB_VERSION)"'
+          cacheHitVar: NETLIB_CACHE_RESTORED
+
       - script: |
           .azure-pipelines/scripts/install_linux_components.sh "$(LINUX_BASEKIT_URL)" "$(LINUX_DPCPP_COMPILER)"
         displayName: Install basekit components
         condition: ne(variables.DPCPP_CACHE_RESTORED, 'true')
 
+      - script: |
+          .azure-pipelines/scripts/install_netlib.sh $(NETLIB_VERSION)
+        displayName: Install netlib
+        condition: ne(variables.NETLIB_CACHE_RESTORED, 'true')
+      
       - script: |
           sudo pip3 install conan
         displayName: Install Conan

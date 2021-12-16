@@ -38,7 +38,6 @@ THIRD-PARTY-PROGRAMS file and in the README.md file included with the Software P
     "
 
     # Dependencies
-    netlib_version = "3.10.0"
     sphinx_version = "2.4.4"
 
     settings = "os", "compiler", "build_type", "arch"
@@ -46,6 +45,8 @@ THIRD-PARTY-PROGRAMS file and in the README.md file included with the Software P
         # Build style
         "build_shared_libs": [True, False],
         "target_domains"   : "ANY",
+        "ref_blas_root"    : "ANY",
+        "ref_lapack_root"  : "ANY",
 
         # Backends
         "enable_mklcpu_backend"   : [True, False],
@@ -58,11 +59,13 @@ THIRD-PARTY-PROGRAMS file and in the README.md file included with the Software P
         "build_functional_tests"  : [True, False],
 
         # Documentation
-        "build_doc"        : [True, False]
+        "build_doc"        : [True, False],
     }
     default_options = {
         "build_shared_libs"       : True,
         "target_domains"          : None,
+        "ref_blas_root"           : None,
+        "ref_lapack_root"         : None,
 
         "enable_mklcpu_backend"   : True,
         "enable_mklgpu_backend"   : True,
@@ -109,8 +112,6 @@ THIRD-PARTY-PROGRAMS file and in the README.md file included with the Software P
 
 
     def build_requirements(self):
-        if self.options.build_functional_tests:
-            self.build_requires(f"lapack/{self.netlib_version}@conan/stable")
         # For Sphinx only
         if self.options.build_doc:
             # Use pip to install Sphinx as a user package
@@ -137,6 +138,8 @@ THIRD-PARTY-PROGRAMS file and in the README.md file included with the Software P
             # Conan does not officially support oneAPI DPC++ Compiler, hence disable the compiler_id check
             "CONAN_DISABLE_CHECK_COMPILER" : True,
             "MKL_ROOT"                 : "/opt/intel/inteloneapi/mkl/latest",
+            "REF_BLAS_ROOT"            : self.options.ref_blas_root,
+            "REF_LAPACK_ROOT"          : self.options.ref_lapack_root,
         })
         # Pass target_domains definition transparently to CMake, since CMakeLists.txt contains checks and defaults.
         if self.options.target_domains != None:

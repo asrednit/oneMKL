@@ -24,7 +24,7 @@ variables:
   - name: LINUX_HPC_TOOLKIT_COMPONENTS
     value: intel.oneapi.lin.dpcpp-cpp-compiler-pro:intel.oneapi.lin.ifort-compiler
   - name: LINUX_DPCPP_COMPILER
-    value: intel.oneapi.lin.dpcpp-cpp-compiler
+    value: intel.oneapi.lin.dpcpp-cpp-compiler:intel.oneapi.lin.tbb.devel
   - name: NETLIB_VERSION
     value: 3.10.0
 

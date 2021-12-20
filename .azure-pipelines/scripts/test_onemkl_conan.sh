@@ -3,6 +3,7 @@
 DOMAIN=$1
 
 export COMPILER_PREFIX="/opt/intel/oneapi/compiler/latest/linux"
+ls -l /opt/intel/oneapi
 
 wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
 sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB

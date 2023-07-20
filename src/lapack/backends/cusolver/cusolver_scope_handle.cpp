@@ -39,7 +39,7 @@ thread_local cusolver_handle<pi_context> CusolverScopedContextHandler::handle_he
     cusolver_handle<pi_context>{};
 
 CusolverScopedContextHandler::CusolverScopedContextHandler(sycl::queue queue,
-                                                           sycl::interop_handler &ih)
+                                                           sycl::interop_handle &ih)
         : ih(ih),
           needToRecover_(false) {
     placedContext_ = queue.get_context();

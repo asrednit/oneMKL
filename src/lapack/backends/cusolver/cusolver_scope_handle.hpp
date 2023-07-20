@@ -79,13 +79,13 @@ class CusolverScopedContextHandler {
     CUcontext original_;
     sycl::context placedContext_;
     bool needToRecover_;
-    sycl::interop_handler &ih;
+    sycl::interop_handle &ih;
     static thread_local cusolver_handle<pi_context> handle_helper;
     CUstream get_stream(const sycl::queue &queue);
     sycl::context get_context(const sycl::queue &queue);
 
 public:
-    CusolverScopedContextHandler(sycl::queue queue, sycl::interop_handler &ih);
+    CusolverScopedContextHandler(sycl::queue queue, sycl::interop_handle &ih);
 
     ~CusolverScopedContextHandler() noexcept(false);
     /**

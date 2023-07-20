@@ -44,7 +44,7 @@ CusolverScopedContextHandler::CusolverScopedContextHandler(sycl::queue queue,
           needToRecover_(false) {
     placedContext_ = queue.get_context();
     auto device = queue.get_device();
-    auto desired = sycl::get_native<sycl::backend::cuda>(placedContext_);
+    auto desired = sycl::get_native<sycl::backend::ext_oneapi_cuda>(placedContext_);
     CUresult err;
     CUDA_ERROR_FUNC(cuCtxGetCurrent, err, &original_);
     if (original_ != desired) {
@@ -88,7 +88,7 @@ void ContextCallback(void *userData) {
 
 cusolverDnHandle_t CusolverScopedContextHandler::get_handle(const sycl::queue &queue) {
     auto piPlacedContext_ =
-        reinterpret_cast<pi_context>(sycl::get_native<sycl::backend::cuda>(placedContext_));
+        reinterpret_cast<pi_context>(sycl::get_native<sycl::backend::ext_oneapi_cuda>(placedContext_));
     CUstream streamId = get_stream(queue);
     cusolverStatus_t err;
     auto it = handle_helper.cusolver_handle_mapper_.find(piPlacedContext_);
@@ -127,7 +127,7 @@ cusolverDnHandle_t CusolverScopedContextHandler::get_handle(const sycl::queue &q
 }
 
 CUstream CusolverScopedContextHandler::get_stream(const sycl::queue &queue) {
-    return sycl::get_native<sycl::backend::cuda>(queue);
+    return sycl::get_native<sycl::backend::ext_oneapi_cuda>(queue);
 }
 sycl::context CusolverScopedContextHandler::get_context(const sycl::queue &queue) {
     return queue.get_context();
